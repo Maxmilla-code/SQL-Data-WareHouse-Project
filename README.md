@@ -50,21 +50,27 @@ Develop SQL-based analytics to deliver detailed insights into:
 - **Sales Trends**
 
 These insights empower stakeholders with key business metrics, enabling strategic decision-making.  
+### 🔍 Bronze vs Silver Reconciliation
+
+The result below compares row counts between the bronze and silver layers for all CRM and ERP tables after running `EXEC bronze.load_bronze;` and `EXEC silver.load_silver;`. Only `crm_cust_info` is expected to lose rows, because duplicate and null customer IDs are removed during cleansing. Every other table should match its bronze count.
+
+<img width="687" height="182" alt="image" src="https://github.com/user-attachments/assets/91de9ef5-fda6-41ae-8708-d7e2b991f71d" />
+
 
 
 ## 📂 Repository Structure
 ```
 data-warehouse-project/
 │
-├── datasets/                           # Raw datasets used for the project (ERP and CRM data)
+├── datasets/                                # Raw datasets used for the project (ERP and CRM data)
 │
-├── docs/                               # Project documentation and architecture details
+├── docs/                                    # Project documentation and architecture details
 │   ├── intergration.png                     # Draw.io file shows all different techniquies and methods of ETL
-│   ├── high level overview       # Draw.io file shows the project's architecture
-│   ├── data_catalog.md                 # Catalog of datasets, including field descriptions and metadata
-│   ├── data_flow.drawio                # Draw.io file for the data flow diagram
+│   ├── high level overview                  # Draw.io file shows the project's architecture
+│   ├── data_catalog.md                      # Catalog of datasets, including field descriptions and metadata
+│   ├── data_flow.drawio                     # Draw.io file for the data flow diagram
 │   ├── star schema data mart.png             # Draw.io file for data models (star schema)
-│   ├── notion plan.pdf           # This shows all the tasks for the project
+│   ├── notion plan.pdf                       # This shows all the tasks for the project
 
 
 │   
@@ -73,7 +79,10 @@ data-warehouse-project/
 │   ├── silver/                         # Scripts for cleaning and transforming data
 │   ├── gold/                           # Scripts for creating analytical models
 │
-├── tests/                              # Test scripts and quality files
+├── tests/                                               # Test scripts and quality files
+├── bronze_silver_reconcilliation.sql                    # Compares row counts between bronze and silver for all CRM and ERP tables
+├── gold_data_quality_checks.sql                         # Checks gold for surrogate key uniqueness and fact-to-dimension connectivity
+├── silver_data_quality_checks.sql                       # Checks silver for nulls, duplicates, unwanted spaces, invalid dates, and standardization
 │
 ├── README.md                           # Project overview and instructions
 ├── LICENSE                             # License information for the repository
